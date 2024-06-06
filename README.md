@@ -45,4 +45,4 @@ Runs linting and formatting for all files in `src` folder.
 
 CloudFront URL - https://d28ay2q9co6h3d.cloudfront.net/
 
-S3-website URL - https://aws-2-serving-spa.s3.amazonaws.com/index.html
+S3-website URL - https://aws-2-serving-spa.s3.amazonaws.com
