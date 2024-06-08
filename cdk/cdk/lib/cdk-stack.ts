@@ -58,5 +58,10 @@ export class CdkStack extends cdk.Stack {
       distribution,
       distributionPaths: ["/*"],
     });
+
+    new cdk.CfnOutput(this, "WebsiteURL", {
+      value: distribution.distributionDomainName,
+      description: "URL of the website hosted on CloudFront",
+    });
   }
 }
