@@ -24,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+cdk.out/
+*.js
+*.d.ts
+.idea
