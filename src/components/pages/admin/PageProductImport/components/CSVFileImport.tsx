@@ -33,9 +33,12 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
 
     try {
       const response = await axios.get(url, {
+        headers: {
+          Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
+        },
         params: {
-          name: encodeURIComponent(file.name)
-        }
+          name: encodeURIComponent(file.name),
+        },
       });
 
       console.log("File to upload: ", file.name);
@@ -43,7 +46,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
 
       const result = await fetch(response.data.url, {
         method: "PUT",
-        body: file
+        body: file,
       });
 
       console.log("Result: ", result);
