@@ -7,6 +7,9 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { theme } from "~/theme";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +22,24 @@ if (import.meta.env.DEV) {
   worker.start({ onUnhandledRequest: "bypass" });
 }
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+
+    if ([401, 403].includes(status)) {
+      const message =
+        status === 401
+          ? "Authorization header is not provided"
+          : "Invalid authorization_token";
+
+      toast.error(`Error ${status}: ${message}`);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 const container = document.getElementById("app");
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!);
@@ -28,6 +49,7 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <ToastContainer />
           <App />
         </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
