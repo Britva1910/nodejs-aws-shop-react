@@ -29,13 +29,19 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
       return;
     }
 
-    console.log("Token", localStorage.getItem("authorization_token"));
+    const token = localStorage.getItem("authorization_token");
+    let header = {};
+    if (token) {
+      header = {
+        Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
+      };
+    } else {
+      header = {};
+    }
 
     try {
       const response = await axios.get(url, {
-        headers: {
-          Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
-        },
+        headers: header,
         params: {
           name: encodeURIComponent(file.name),
         },
